@@ -1,0 +1,22 @@
+{
+  "name": "joker",
+  "version": "1.0.0",
+  "description": "Online Joker game",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HexionTeam/joker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HexionTeam/joker/issues"
+  },
+  "homepage": "https://github.com/HexionTeam/joker#readme",
+  "dependencies": {
+    "electron": "^10.1.2"
+  }
+}

@@ -1,0 +1,22 @@
+@font-face {
+    font-family: 'Nova Mono';
+    src: url('https://fonts.gstatic.com/l/font?kit=flU9Rqquw5UhEnlwTJYTYYLGCMN4KzIRk7HJZYQmTUioPTWj3xnvljyQmfJHBHjhyAn3pHr9fPMiS2LpYRCSWUiNZyUOvuFyXj45gGzKl3sMo-bdWpo69K5oxt2XkJDkbdPm3N907dhfUl6G4ZDfroB9We7n48XTY01P9z2ZEMzX5KHi4anVRw&skey=d3616e391d193ac0&v=v12');
+}
+
+.game-name {
+    font-family: 'Nova Mono';
+    font-size: 20vmin;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10+ and Edge */
+    user-select: none; /* Standard syntax */
+}
+
+.join-room-btn {
+    background-color: #86151b !important;
+    border-color: #86151b !important;
+}
+
+.create-room-btn {
+    background-color: #202020 !important;
+    border-color: #202020 !important;
+}

@@ -17,3 +17,7 @@
     background-color: #202020 !important;
     border-color: #202020 !important;
 }
+
+.required-left-empty {
+    box-shadow: 0 0 0px 2px #d93025 !important;
+}

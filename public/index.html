@@ -2,6 +2,7 @@
 
 <head>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="toast.min.css">
     <!-- CSS only -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -18,31 +19,34 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>
+    <script src="toast.min.js"></script>
 
     <div class="container-fluid h-100">
         <div class="row justify-content-center h-100">
             <div class="col-4 my-auto">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <h1 class="game-name user-select-none">joker</h1>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-8">
-                            <div class="form-group">
-                                <input type="text" name="" id="nickname-input" class="form-control"
-                                    placeholder="nickname" aria-describedby="helpId">
+                <form id="main-form">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <h1 class="game-name user-select-none">joker</h1>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-8">
+                                <div class="form-group">
+                                    <input type="text" name="" id="nickname-input" class="form-control" required
+                                        placeholder="nickname" aria-describedby="helpId" data-toggle="popover" data-trigger="manual" data-content="this is a required field">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-4 pr-2">
+                                <button type="button" class="btn-block btn btn-primary join-room-btn">Join Room</button>
+                            </div>
+                            <div class="col-4 pl-2">
+                                <button id="create-btn" type="button" class="btn-block btn btn-primary create-room-btn">Create Room</button>
                             </div>
                         </div>
                     </div>
-                    <div class="row justify-content-center">
-                        <div class="col-4 pr-2">
-                            <button type="button" class="btn-block btn btn-primary join-room-btn">Join Room</button>
-                        </div>
-                        <div class="col-4 pl-2">
-                            <button type="button" class="btn-block btn btn-primary create-room-btn">Create Room</button>
-                        </div>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

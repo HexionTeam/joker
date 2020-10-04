@@ -4,7 +4,7 @@
   "description": "Online Joker game",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "node main.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/HexionTeam/joker#readme",
   "dependencies": {
-    "electron": "^10.1.2"
+    "express": "^4.17.1"
   }
 }

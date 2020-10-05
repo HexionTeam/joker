@@ -16,7 +16,29 @@ $('[required]').on('invalid', (e) => {
 
 $('#create-btn').on('click', (e) => {
     if ($('#main-form')[0].checkValidity()) {
-        initLobbyFrame(true);
+        if (!window.serverSocket) {
+            window.serverSocket = io();
+            window.serverSocket.on('room', (details) => {
+                if (details.status == 'success') {
+                    initLobbyFrame(true);
+                    switchFrame('lobby-frame');
+                    $.toast({
+                        type: 'success',
+                        title: 'Yay!',
+                        content: 'Room created successfully!',
+                        delay: 5000
+                    });
+                } else {
+                    $.toast({
+                        type: 'error',
+                        title: 'Oh...',
+                        content: 'Failed to create a room.',
+                        delay: 5000
+                    });
+                }
+            });
+        }
+        window.serverSocket.emit('create-room', $('#nickname-input').val());
     }
 });
 

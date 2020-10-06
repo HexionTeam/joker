@@ -65,8 +65,12 @@ io.on('connection', (socket) => {
                 // remove the user from the room
                 delete rooms[room][socket.id];
 
-                // appoint another admin if the exiting user was the admin
-                if (user.isAdmin) {
+                // close the room if its empty
+                if (Object.keys(rooms[room]).length == 0) {
+                    delete rooms[room];
+                }
+                else if (user.isAdmin) {
+                    // replace current admin
                     let roomUsers = Object.keys(rooms[room]);
                     rooms[room][roomUsers[0]].isAdmin = true;
                     

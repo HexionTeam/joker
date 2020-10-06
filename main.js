@@ -29,12 +29,11 @@ io.on('connection', (socket) => {
             var roomId = generateRoomId();
 
             // save room details
-            rooms[roomId] = {
-                'admin': {
-                    'username': username,
-                    'socket': socket
-                }
-            };
+            rooms[roomId] = {}
+            rooms[roomId][socket.id] = {
+                'username': username,
+                'isAdmin': true
+            }
 
             // add the user to the new room
             socket.join(roomId);
@@ -48,5 +47,13 @@ io.on('connection', (socket) => {
         } else {
             socket.emit('room', { 'status': 'fail' });
         }
+    });
+
+    socket.on('disconnecting', (reason) => {
+        Object.keys(socket.rooms).forEach((room) => {
+            if (rooms[room] && rooms[room][socket.id]) {
+                io.sockets.in(room).emit('user-disconnecting', rooms[room][socket.id].username);
+            }
+        });
     });
 });

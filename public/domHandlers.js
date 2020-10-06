@@ -37,6 +37,15 @@ $('#create-btn').on('click', (e) => {
                     });
                 }
             });
+
+            window.serverSocket.on('user-disconnecting', (username) => {
+                $.toast({
+                    type: 'info',
+                    title: 'Byebye!',
+                    content: `${username} left the room.`,
+                    delay: 5000
+                });
+            });
         }
         window.serverSocket.emit('create-room', $('#nickname-input').val());
     }
@@ -44,4 +53,6 @@ $('#create-btn').on('click', (e) => {
 
 $('#exit-btn').on('click', (e) => {
     window.serverSocket.disconnect();
+    window.serverSocket = null;
+    switchFrame('main-frame');
 });

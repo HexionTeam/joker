@@ -1,3 +1,5 @@
+const colors = require('colors');
+const logger = require('./logger.js');
 const express = require('express');
 const app = express();
 app.use(express.static('public'));
@@ -43,16 +45,34 @@ io.on('connection', (socket) => {
                 'status': 'success',
                 'roomId': roomId
             });
+            logger.createRoomSuccess(roomId, username);
 
         } else {
             socket.emit('room', { 'status': 'fail' });
+            logger.createRoomFail(username);
         }
     });
 
     socket.on('disconnecting', (reason) => {
         Object.keys(socket.rooms).forEach((room) => {
             if (rooms[room] && rooms[room][socket.id]) {
-                io.sockets.in(room).emit('user-disconnecting', rooms[room][socket.id].username);
+                let user = rooms[room][socket.id];
+                
+                // notify about the user's disconnection
+                io.sockets.in(room).emit('user-disconnecting', user.username);
+                logger.notifyDisconnecting(room, user.username);
+
+                // remove the user from the room
+                delete rooms[room][socket.id];
+
+                // appoint another admin if the exiting user was the admin
+                if (user.isAdmin) {
+                    let roomUsers = Object.keys(rooms[room]);
+                    rooms[room][roomUsers[0]].isAdmin = true;
+                    
+                    // notify the room about the change
+                    io.sockets.in(room).emit('new-admin', roomUsers[0]);
+                }
             }
         });
     });

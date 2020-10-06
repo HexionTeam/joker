@@ -4,14 +4,14 @@ class Logger {
      * @param {string} admin The username of the room's admin
      */
     static createRoomSuccess(room, admin) {
-        console.log(`CREATE room ${room.brightMagenta} by ${admin.brightYellow}`);
+        this.info(`room ${room.brightMagenta} created by ${admin.brightYellow}`);
     }
 
     /**
      * @param {string} admin The username of the admin the tried to create the room
      */
     static createRoomFail(admin) {
-        console.log(`FAILED room creation by ${admin.brightYellow}`);
+        this.warning(`room creation by ${admin.brightYellow} failed`);
     }
 
     /**
@@ -19,7 +19,31 @@ class Logger {
      * @param {string} username The username of the disconnecting user 
      */
     static notifyDisconnecting(room, username) {
-        console.log(`NOTIFY room ${room.brightMagenta} that ${username.cyan} disconnected`);
+        this.info(`user ${username.cyan} disconnected from room ${room.brightMagenta}`);
+    }
+
+    /**
+     * @param {string} message
+     */
+    static info(message) {
+        let timestamp = new Date().toISOString().slice(0,19).split('T').join(' ');
+        console.log(`${timestamp} ${'INF'.brightCyan} ${message}`);
+    }
+    
+    /**
+     * @param {string} message
+     */
+    static warning(message) {
+        let timestamp = new Date().toISOString().slice(0,19).split('T').join(' ');
+        console.log(`${timestamp} ${'WRN'.brightYellow} ${message}`);
+    }
+
+    /**
+     * @param {string} message
+     */
+    static error(message) {
+        let timestamp = new Date().toISOString().slice(0,19).split('T').join(' ');
+        console.log(`${timestamp} ${'ERR'.brightRed} ${message}`);
     }
 }
 

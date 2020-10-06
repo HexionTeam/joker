@@ -3,7 +3,7 @@ const logger = require('./logger.js');
 const express = require('express');
 const app = express();
 app.use(express.static('public'));
-const server = app.listen(80, () => { console.log('Listening...') });
+const server = app.listen(80, () => { logger.info('server started') });
 const io = require('socket.io')(server);
 
 var rooms = {};
@@ -54,16 +54,17 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnecting', (reason) => {
+        let id = socket.id;
         Object.keys(socket.rooms).forEach((room) => {
-            if (rooms[room] && rooms[room][socket.id]) {
-                let user = rooms[room][socket.id];
+            if (rooms[room] && rooms[room][id]) {
+                let user = rooms[room][id];
                 
                 // notify about the user's disconnection
                 io.sockets.in(room).emit('user-disconnecting', user.username);
                 logger.notifyDisconnecting(room, user.username);
 
                 // remove the user from the room
-                delete rooms[room][socket.id];
+                delete rooms[room][id];
 
                 // close the room if its empty
                 if (Object.keys(rooms[room]).length == 0) {

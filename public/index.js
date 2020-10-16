@@ -8,7 +8,7 @@ function switchFrame(targetFrame) {
 
 function initLobbyFrame(isRoomAdmin) {
     if (isRoomAdmin) {
-        
+
     } else {
         // lobby frame initialization in case of 'Join Room'.
     }

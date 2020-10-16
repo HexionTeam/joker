@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
         Object.keys(socket.rooms).forEach((room) => {
             if (rooms[room] && rooms[room][id]) {
                 let user = rooms[room][id];
-                
+
                 // notify about the user's disconnection
                 io.sockets.in(room).emit('user-disconnecting', user.username);
                 logger.notifyDisconnecting(room, user.username);
@@ -74,7 +74,7 @@ io.on('connection', (socket) => {
                     // replace current admin
                     let roomUsers = Object.keys(rooms[room]);
                     rooms[room][roomUsers[0]].isAdmin = true;
-                    
+
                     // notify the room about the change
                     io.sockets.in(room).emit('new-admin', roomUsers[0]);
                 }

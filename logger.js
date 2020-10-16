@@ -26,15 +26,15 @@ class Logger {
      * @param {string} message
      */
     static info(message) {
-        let timestamp = new Date().toISOString().slice(0,19).split('T').join(' ');
+        let timestamp = new Date().toISOString().slice(0, 19).split('T').join(' ');
         console.log(`${timestamp} ${'INF'.brightCyan} ${message}`);
     }
-    
+
     /**
      * @param {string} message
      */
     static warning(message) {
-        let timestamp = new Date().toISOString().slice(0,19).split('T').join(' ');
+        let timestamp = new Date().toISOString().slice(0, 19).split('T').join(' ');
         console.log(`${timestamp} ${'WRN'.brightYellow} ${message}`);
     }
 
@@ -42,7 +42,7 @@ class Logger {
      * @param {string} message
      */
     static error(message) {
-        let timestamp = new Date().toISOString().slice(0,19).split('T').join(' ');
+        let timestamp = new Date().toISOString().slice(0, 19).split('T').join(' ');
         console.log(`${timestamp} ${'ERR'.brightRed} ${message}`);
     }
 }

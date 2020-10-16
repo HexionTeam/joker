@@ -1,23 +1,139 @@
-@font-face {
-    font-family: 'Nova Mono';
-    src: url('https://fonts.gstatic.com/l/font?kit=flU9Rqquw5UhEnlwTJYTYYLGCMN4KzIRk7HJZYQmTUioPTWj3xnvljyQmfJHBHjhyAn3pHr9fPMiS2LpYRCSWUiNZyUOvuFyXj45gGzKl3sMo-bdWpo69K5oxt2XkJDkbdPm3N907dhfUl6G4ZDfroB9We7n48XTY01P9z2ZEMzX5KHi4anVRw&skey=d3616e391d193ac0&v=v12');
+:root {
+    --joker-white: #E2FCEF;
+    --red-joker-color: #A20111;
+    --red-joker-darker-color: #6e1116;
+    --black-joker-color: #170F11 !important;
+    --black-joker-darker-color: #070707 !important;
+    --required-field-color: #6369D1;
+    --black-shadow: #0c0c0c;
+    --overlaying-gray: #252627;
+    --player-table-height-num: 65%;
+}
+
+body {
+    background-color: var(--black-joker-color) !important;
+}
+
+.game-banner {
+    z-index: -1 !important;
+    position: absolute;
 }
 
 .game-name {
-    font-family: 'Nova Mono';
+    font-family: 'Nova Flat', cursive;
     font-size: 20vmin;
+    color: var(--red-joker-color);
+    text-shadow: 0 0 5px var(--black-shadow);
+}
+
+.menu-btn {
+    min-width: 8rem;
+    height: 5rem;
+    font-size: 2.5rem !important;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    border-radius: 0.5rem !important;
+    border-width: 0.2rem !important;
+    box-shadow: 0 0 3px 0px var(--black-shadow);
 }
 
 .join-room-btn {
-    background-color: #86151b !important;
-    border-color: #86151b !important;
+    background-color: var(--red-joker-color) !important;
+    border-color: var(--red-joker-darker-color) !important;
+}
+
+.join-room-btn:hover {
+    background-color: var(--red-joker-darker-color) !important;
+    border-color: var(--red-joker-color) !important;
 }
 
 .create-room-btn {
-    background-color: #202020 !important;
-    border-color: #202020 !important;
+    background-color: var(--black-joker-color) !important;
+    border-color: var(--black-joker-darker-color) !important;
+}
+
+.create-room-btn:hover {
+    background-color: var(--black-joker-darker-color) !important;
+    border-color: var(--black-joker-color) !important;
 }
 
 .required-left-empty {
-    box-shadow: 0 0 0px 2px #d93025 !important;
+    box-shadow: 0 0 0px 3px var(--required-field-color) !important;
+}
+
+.code-tag {
+    border-radius: 0.5rem !important;
+    box-shadow: 0px 0px 4px 0 var(--black-shadow) !important;
+    overflow: hidden;
+    border-width: 2px !important;
+    border-color: var(--required-field-color) !important;
+    background-color: var(--black-joker-color) !important;
+}
+
+.code-tag h2 {
+    font-family: 'Inter', sans-serif;
+    color: var(--required-field-color) !important;
+}
+
+.code-tag rect, .code-tag path {
+    stroke: var(--required-field-color);
+}
+
+.code-tag:hover {
+    border-color: var(--black-joker-color) !important;
+    background-color: var(--required-field-color) !important;
+}
+
+.code-tag:hover rect, .code-tag:hover path {
+    stroke: var(--black-joker-color);
+}
+
+.code-tag:hover h2 {
+    color: var(--black-joker-color) !important;
+}
+
+.code-tag:focus {
+    outline: none !important;
+}
+
+.h-flipped {
+    transform: scale(-1,1);
+}
+
+.icon-btn {
+    fill: var(--joker-white) !important;
+}
+
+.player {
+    border: none !important;
+    background: none !important;
+    background-color: var(--overlaying-gray) !important;
+    border-radius: 0.5rem !important;
+}
+
+.player .card-body {
+    border: none !important;
+}
+
+.player-count-title, .player h3 {
+    color: var(--joker-white);
+    font-family: 'Inter', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+}
+
+.player-table-height {
+    height: var(--player-table-height-num);
+}
+
+#nickname-input {
+    min-width: 17rem;
+    height: 4rem;
+    font-size: 2.5rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 200;
+    text-align: center;
+    border-radius: 0.5rem !important;
+    border: none !important;
+    box-shadow: 0 0 3px 0px #888888 inset;
 }

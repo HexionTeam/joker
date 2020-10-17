@@ -53,6 +53,38 @@ io.on('connection', (socket) => {
         }
     });
 
+    socket.on('join-room', (username, roomId) => {
+        username = username.trim();
+
+        // user has no existing rooms, and the username is not used in the given room
+        if (Object.keys(socket.rooms).length == 1 && username.match(/^[^@#]+$/) &&
+            !Object.values(rooms[roomId]).map((user) => user.username).includes(username)) {
+
+            // save room details
+            rooms[roomId][socket.id] = {
+                'username': username,
+                'isAdmin': false
+            }
+
+            // add the user to the new room
+            socket.join(roomId);
+
+            // send the room ID
+            socket.emit('room', {
+                'status': 'joined',
+                'roomId': roomId,
+                'roomDetails': Object.values(rooms[roomId])
+            });
+
+            io.sockets.in(roomId).emit('joined', username);
+            logger.joinRoomSuccess(roomId, username);
+
+        } else {
+            socket.emit('room', { 'status': 'join-failed' });
+            logger.joinRoomFail(roomId, username);
+        }
+    });
+
     socket.on('disconnecting', (reason) => {
         let id = socket.id;
         Object.keys(socket.rooms).forEach((room) => {
@@ -76,7 +108,8 @@ io.on('connection', (socket) => {
                     rooms[room][roomUsers[0]].isAdmin = true;
 
                     // notify the room about the change
-                    io.sockets.in(room).emit('new-admin', roomUsers[0]);
+                    io.sockets.in(room).emit('new-admin', rooms[room][roomUsers[0]].username);
+                    console.log('new-admin', rooms[room][roomUsers[0]].username);
                 }
             }
         });

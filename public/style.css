@@ -4,7 +4,8 @@
     --red-joker-darker-color: #6e1116;
     --black-joker-color: #170F11 !important;
     --black-joker-darker-color: #070707 !important;
-    --required-field-color: #6369D1;
+    --blue-joker-color: #6369D1;
+    --required-field-color: #EA0B21;
     --black-shadow: #0c0c0c;
     --overlaying-gray: #252627;
     --player-table-height-num: 65%;
@@ -27,7 +28,7 @@ body {
 }
 
 .menu-btn {
-    min-width: 8rem;
+    min-width: 7rem;
     height: 5rem;
     font-size: 2.5rem !important;
     font-family: 'Inter', sans-serif;
@@ -58,7 +59,7 @@ body {
 }
 
 .required-left-empty {
-    box-shadow: 0 0 0px 3px var(--required-field-color) !important;
+    box-shadow: 0 0 0px 4px var(--required-field-color) !important;
 }
 
 .code-tag {
@@ -66,22 +67,22 @@ body {
     box-shadow: 0px 0px 4px 0 var(--black-shadow) !important;
     overflow: hidden;
     border-width: 2px !important;
-    border-color: var(--required-field-color) !important;
+    border-color: var(--blue-joker-color) !important;
     background-color: var(--black-joker-color) !important;
 }
 
 .code-tag h2 {
     font-family: 'Inter', sans-serif;
-    color: var(--required-field-color) !important;
+    color: var(--blue-joker-color) !important;
 }
 
 .code-tag rect, .code-tag path {
-    stroke: var(--required-field-color);
+    stroke: var(--blue-joker-color);
 }
 
 .code-tag:hover {
     border-color: var(--black-joker-color) !important;
-    background-color: var(--required-field-color) !important;
+    background-color: var(--blue-joker-color) !important;
 }
 
 .code-tag:hover rect, .code-tag:hover path {
@@ -126,14 +127,13 @@ body {
     height: var(--player-table-height-num);
 }
 
-#nickname-input {
-    min-width: 17rem;
-    height: 4rem;
-    font-size: 2.5rem;
-    font-family: 'Inter', sans-serif;
-    font-weight: 200;
-    text-align: center;
+.form-text-input {
+    min-width: 17rem !important;
+    height: 4.5rem !important;
+    font-size: 2.5rem !important;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 200 !important;
+    text-align: center !important;
     border-radius: 0.5rem !important;
     border: none !important;
-    box-shadow: 0 0 3px 0px #888888 inset;
 }

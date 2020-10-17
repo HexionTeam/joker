@@ -16,6 +16,22 @@ class Logger {
 
     /**
      * @param {string} room The room's ID
+     * @param {string} username The username of the joining user
+     */
+    static joinRoomSuccess(room, username) {
+        this.info(`user ${username.brightYellow} join room ${room.brightMagenta}`);
+    }
+
+    /**
+     * @param {string} room The room's ID
+     * @param {string} username The username of the joining user
+     */
+    static joinRoomFail(room, username) {
+        this.warning(`user ${username.brightYellow} failed to join room ${room.brightMagenta}`);
+    }
+
+    /**
+     * @param {string} room The room's ID
      * @param {string} username The username of the disconnecting user 
      */
     static notifyDisconnecting(room, username) {

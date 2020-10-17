@@ -52,7 +52,11 @@ $('#create-btn').on('click', (e) => {
 });
 
 $('#exit-btn').on('click', (e) => {
-    window.serverSocket.disconnect();
+    try {
+        window.serverSocket.disconnect();
+    } catch (error) {
+        console.log(error);
+    }
     window.serverSocket = null;
     switchFrame('main-frame');
 });

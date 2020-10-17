@@ -42,13 +42,13 @@ io.on('connection', (socket) => {
 
             // send the room ID
             socket.emit('room', {
-                'status': 'success',
+                'status': 'created',
                 'roomId': roomId
             });
             logger.createRoomSuccess(roomId, username);
 
         } else {
-            socket.emit('room', { 'status': 'fail' });
+            socket.emit('room', { 'status': 'creation-failed' });
             logger.createRoomFail(username);
         }
     });

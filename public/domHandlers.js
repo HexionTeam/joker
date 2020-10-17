@@ -19,7 +19,7 @@ $('#create-btn').on('click', (e) => {
         if (!window.serverSocket) {
             window.serverSocket = io();
             window.serverSocket.on('room', (details) => {
-                if (details.status == 'success') {
+                if (details.status == 'created') {
                     initLobbyFrame(true);
                     switchFrame('lobby-frame');
                     $.toast({
@@ -28,7 +28,8 @@ $('#create-btn').on('click', (e) => {
                         content: 'Room created successfully!',
                         delay: 5000
                     });
-                } else {
+                }
+                else if (details.status == 'creation-failed') {
                     $.toast({
                         type: 'error',
                         title: 'Oh...',
@@ -67,13 +68,13 @@ $('#room-code-txt').on('click', (e) => {
 
 /**
  * Use this to append the new player to the players list in the player joined event handler
-$('#players-list').append('<div class="col-3 pb-4"> \
-    <div class="card player"> \
-        <div class="card-body"> \
-            <div class="row justify-content-center"> \
-                <h3 class="card-title my-0 text-trunca te">Idan</h3> \
-            </div>\
-        </div>\
-    </div>\
-</div>')
+$('#players-list').append(`<div class="col-3 pb-4">
+    <div class="card player">
+        <div class="card-body">
+            <div class="row justify-content-center">
+                <h3 class="card-title my-0 text-trunca te">Idan</h3>
+            </div>
+        </div>
+    </div>
+</div>`)
  */

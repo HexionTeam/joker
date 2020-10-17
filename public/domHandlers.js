@@ -20,7 +20,7 @@ $('#create-btn').on('click', (e) => {
             window.serverSocket = io();
             window.serverSocket.on('room', (details) => {
                 if (details.status == 'created') {
-                    initLobbyFrame(true);
+                    initLobbyFrame(true, details.roomId);
                     switchFrame('lobby-frame');
                     $.toast({
                         type: 'success',

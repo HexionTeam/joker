@@ -6,10 +6,15 @@ function switchFrame(targetFrame) {
     $(`#${targetFrame}`).show();
 }
 
-function initLobbyFrame(isRoomAdmin) {
-    if (isRoomAdmin) {
+function initLobbyFrame(isRoomAdmin, roomId) {
+    // reset the lobby details
+    $('#players-list').empty();
+    $('#player-count').text('1');
 
-    } else {
-        // lobby frame initialization in case of 'Join Room'.
+    // set the code of the room
+    $('#room-code-txt').text(roomId);
+
+    if (!isRoomAdmin) {
+        $('#play-btn').hide();
     }
 }

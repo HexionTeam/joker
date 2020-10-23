@@ -84,4 +84,8 @@ function initServerEventHandlers() {
             toastNewAdmin();
         }
     });
+
+    window.serverSocket.on('game-started', () => {
+        switchFrame('none');
+    });
 }

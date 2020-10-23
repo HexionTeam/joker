@@ -85,6 +85,26 @@ io.on('connection', (socket) => {
         }
     });
 
+    socket.on('start-game', () => {
+        Object.keys(socket.rooms).forEach((room) => {
+            if (rooms[room] && rooms[room][socket.id]) {
+                // game is unplayable with less than 3 players
+                if (Object.keys(rooms[room]).length < 3) {
+                    io.sockets.in(room).emit('game-not-started', 'At least 3 players are required to play.');
+                }
+                else if (!rooms[room][socket.id].isAdmin) {
+                    io.sockets.in(room).emit('game-not-started', "You're not this room's admin.");
+                }
+                else {
+                    let users = Object.keys(rooms[room]).map((user) => user.username);
+                    // shuffle the positions of the users
+                    users.sort(() => Math.random() - 0.5);
+                    io.sockets.in(room).emit('game-started', users);
+                }
+            }
+        });
+    });
+
     socket.on('disconnecting', (reason) => {
         let id = socket.id;
         Object.keys(socket.rooms).forEach((room) => {

@@ -43,6 +43,15 @@ function toastGeneralError() {
     });
 }
 
+function toastDetailedError(message) {
+    $.toast({
+        type: 'error',
+        title: 'Oops...',
+        content: message,
+        delay: 5000
+    });
+}
+
 function toastUserLeft(username) {
     $.toast({
         type: 'info',

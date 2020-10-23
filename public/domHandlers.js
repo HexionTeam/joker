@@ -56,3 +56,11 @@ $('#exit-btn').on('click', (e) => {
 $('#room-code-txt').on('click', (e) => {
     navigator.clipboard.writeText($('#room-code-txt').text());
 });
+
+$('#play-btn').on('click', (e) => {
+    window.serverSocket.on('game-not-started', (reason) => {
+        toastDetailedError(reason);
+    });
+
+    window.serverSocket.emit('start-game');
+});

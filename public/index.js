@@ -17,7 +17,7 @@ function switchFrame(targetFrame) {
 function initLobbyFrame(isRoomAdmin, roomId) {
     // reset the lobby details
     $('#players-list').empty();
-    $('#player-count').text('1');
+    $('#player-count').text('0');
 
     // set the code of the room
     $('#room-code-txt').text(roomId);
@@ -29,6 +29,14 @@ function initLobbyFrame(isRoomAdmin, roomId) {
 
 function initGameFrame(users) {
     let isAdmin = users.find(user => user.username == $('#nickname-input').val())?.isAdmin ?? false;
+}
+
+function incrementPlayerCounter() {
+    $('#player-count').text((parseInt($('#player-count').text()) + 1));
+}
+
+function decrementPlayerCounter() {
+    $('#player-count').text((parseInt($('#player-count').text()) - 1));
 }
 
 function toggleJoinComponent() {
@@ -53,6 +61,7 @@ function initServerEventHandlers() {
         if (details.status == 'created') {
             initLobbyFrame(true, details.roomId);
             appendPlayerToPlayerList($('#nickname-input').val());
+            incrementPlayerCounter();
             switchFrame('lobby-frame');
             toastCreateSuccess();
         }
@@ -64,6 +73,7 @@ function initServerEventHandlers() {
             console.log(details.roomDetails);
             Object.values(details.roomDetails.users).forEach((user) => {
                 appendPlayerToPlayerList(user.username);
+                incrementPlayerCounter();
             });
             switchFrame('lobby-frame');
             toastJoinSuccess();
@@ -78,8 +88,7 @@ function initServerEventHandlers() {
 
     window.serverSocket.on('joined', (username) => {
         if (username == $('#nickname-input').val()) return;
-        // increment the count of players in the lobby
-        $('#player-count').text((parseInt($('#player-count').text()) + 1));
+        incrementPlayerCounter();
         appendPlayerToPlayerList(username);
         toastUserJoined(username);
     });
@@ -88,6 +97,7 @@ function initServerEventHandlers() {
         toastUserLeft(username);
         // remove the user from the players list
         $(`[data-username="${username}"]`).remove();
+        decrementPlayerCounter();
     });
 
     window.serverSocket.on('new-admin', (username) => {
@@ -104,6 +114,6 @@ function initServerEventHandlers() {
     });
 
     window.serverSocket.on('game-ended', () => {
-        switchFrame('main-frame');
+        exitToMainFrame();    
     });
 }

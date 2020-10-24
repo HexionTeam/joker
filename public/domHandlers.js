@@ -1,3 +1,13 @@
+function exitToMainFrame(event) {
+    try {
+        window.serverSocket.disconnect();
+    } catch (error) {
+        console.log(error);
+    }
+    window.serverSocket = null;
+    switchFrame('main-frame');
+}
+
 $('[required]').on('input', (e) => {
     if (e.target.classList.contains('required-left-empty')) {
         e.target.classList.remove('required-left-empty');
@@ -43,15 +53,8 @@ $('#join-back-btn').on('click', (e) => {
     toggleJoinComponent();
 });
 
-$('#exit-btn').on('click', (e) => {
-    try {
-        window.serverSocket.disconnect();
-    } catch (error) {
-        console.log(error);
-    }
-    window.serverSocket = null;
-    switchFrame('main-frame');
-});
+$('#exit-lobby-btn').on('click', exitToMainFrame);
+$('#exit-game-btn').on('click', exitToMainFrame);
 
 $('#room-code-txt').on('click', (e) => {
     navigator.clipboard.writeText($('#room-code-txt').text());

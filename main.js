@@ -31,8 +31,11 @@ io.on('connection', (socket) => {
             var roomId = generateRoomId();
 
             // save room details
-            rooms[roomId] = {}
-            rooms[roomId][socket.id] = {
+            rooms[roomId] = {
+                'gameStatus': 'lobby',
+                'users': {}
+            }
+            rooms[roomId].users[socket.id] = {
                 'username': username,
                 'isAdmin': true
             }
@@ -57,11 +60,11 @@ io.on('connection', (socket) => {
         username = username.trim();
 
         // user has no existing rooms, and the username is not used in the given room
-        if (Object.keys(socket.rooms).length == 1 && username.match(/^[^@#]+$/) && rooms[roomId] &&
-            !Object.values(rooms[roomId]).map((user) => user.username).includes(username)) {
+        if (Object.keys(socket.rooms).length == 1 && username.match(/^[^@#]+$/) && rooms[roomId] && rooms[roomId].users &&
+            !Object.values(rooms[roomId].users).map((user) => user.username).includes(username)) {
 
             // save room details
-            rooms[roomId][socket.id] = {
+            rooms[roomId].users[socket.id] = {
                 'username': username,
                 'isAdmin': false
             }
@@ -73,7 +76,7 @@ io.on('connection', (socket) => {
             socket.emit('room', {
                 'status': 'joined',
                 'roomId': roomId,
-                'roomDetails': Object.values(rooms[roomId])
+                'roomDetails': rooms[roomId]
             });
 
             io.sockets.in(roomId).emit('joined', username);
@@ -87,18 +90,21 @@ io.on('connection', (socket) => {
 
     socket.on('start-game', () => {
         Object.keys(socket.rooms).forEach((room) => {
-            if (rooms[room] && rooms[room][socket.id]) {
+            if (rooms[room] && rooms[room].users && rooms[room].users[socket.id]) {
                 // game is unplayable with less than 3 players
-                if (Object.keys(rooms[room]).length < 3) {
+                if (Object.keys(rooms[room].users).length < 3) {
                     io.sockets.in(room).emit('game-not-started', 'At least 3 players are required to play.');
                 }
-                else if (!rooms[room][socket.id].isAdmin) {
+                else if (!rooms[room].users[socket.id].isAdmin) {
                     io.sockets.in(room).emit('game-not-started', "You're not this room's admin.");
                 }
                 else {
-                    let users = Object.values(rooms[room]).map((user) => user.username);
                     // shuffle the positions of the users
+                    let users = Object.values(rooms[room].users);
                     users.sort(() => Math.random() - 0.5);
+
+                    // change the room's status and notify the users
+                    rooms[room].gameStatus = 'ingame';
                     io.sockets.in(room).emit('game-started', users);
                 }
             }
@@ -108,28 +114,43 @@ io.on('connection', (socket) => {
     socket.on('disconnecting', (reason) => {
         let id = socket.id;
         Object.keys(socket.rooms).forEach((room) => {
-            if (rooms[room] && rooms[room][id]) {
-                let user = rooms[room][id];
+            if (rooms[room] && rooms[room].users && rooms[room].users[id]) {
+                let user = rooms[room].users[id];
 
                 // notify about the user's disconnection
                 io.sockets.in(room).emit('user-disconnecting', user.username);
                 logger.notifyDisconnecting(room, user.username);
 
-                // remove the user from the room
-                delete rooms[room][id];
+                switch (rooms[room].gameStatus) {
+                    case 'lobby':
+                        // remove the user from the room
+                        delete rooms[room].users[id];
 
-                // close the room if its empty
-                if (Object.keys(rooms[room]).length == 0) {
-                    delete rooms[room];
-                }
-                else if (user.isAdmin) {
-                    // replace current admin
-                    let roomUsers = Object.keys(rooms[room]);
-                    rooms[room][roomUsers[0]].isAdmin = true;
+                        // close the room if its empty
+                        if (Object.keys(rooms[room].users).length == 0) {
+                            delete rooms[room];
+                        }
+                        else if (user.isAdmin) {
+                            // replace current admin
+                            let roomUsers = Object.keys(rooms[room].users);
+                            rooms[room].users[roomUsers[0]].isAdmin = true;
 
-                    // notify the room about the change
-                    io.sockets.in(room).emit('new-admin', rooms[room][roomUsers[0]].username);
-                    console.log('new-admin', rooms[room][roomUsers[0]].username);
+                            // notify the room about the change
+                            io.sockets.in(room).emit('new-admin', rooms[room].users[roomUsers[0]].username);
+                            console.log('new-admin', rooms[room].users[roomUsers[0]].username);
+                        }
+                        break;
+
+                    case 'ingame':
+                        // set this variable later when the game is implemented.
+                        // if the game was ended by a disconnection, it should be false.
+                        // else, the game was ended by a victory, show results and decks should be shown.
+                        let showResults = false;
+                        io.sockets.in(room).emit('game-ended', showResults);
+                        delete rooms[room];
+                        break;
+                    default:
+                        break;
                 }
             }
         });

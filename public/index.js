@@ -2,6 +2,14 @@ function switchFrame(targetFrame) {
     // hide all existing frames
     $('[frame]').not(`#${targetFrame}`).hide();
 
+    // hide/show the game banner
+    if (targetFrame == 'game-frame') {
+        $('#game-banner').hide();
+    }
+    else {
+        $('#game-banner').show();
+    }
+
     // show target frame
     $(`#${targetFrame}`).show();
 }
@@ -17,6 +25,10 @@ function initLobbyFrame(isRoomAdmin, roomId) {
     if (!isRoomAdmin) {
         $('#play-btn').hide();
     }
+}
+
+function initGameFrame(users) {
+    let isAdmin = users.find(user => user.username == $('#nickname-input').val())?.isAdmin ?? false;
 }
 
 function toggleJoinComponent() {
@@ -49,7 +61,8 @@ function initServerEventHandlers() {
         }
         else if (details.status == 'joined') {
             initLobbyFrame(false, details.roomId);
-            details.roomDetails.forEach((user) => {
+            console.log(details.roomDetails);
+            Object.values(details.roomDetails.users).forEach((user) => {
                 appendPlayerToPlayerList(user.username);
             });
             switchFrame('lobby-frame');
@@ -85,7 +98,12 @@ function initServerEventHandlers() {
         }
     });
 
-    window.serverSocket.on('game-started', () => {
-        switchFrame('none');
+    window.serverSocket.on('game-started', (users) => {
+        initGameFrame(users);
+        switchFrame('game-frame');
+    });
+
+    window.serverSocket.on('game-ended', () => {
+        switchFrame('main-frame');
     });
 }

@@ -57,7 +57,7 @@ io.on('connection', (socket) => {
         username = username.trim();
 
         // user has no existing rooms, and the username is not used in the given room
-        if (Object.keys(socket.rooms).length == 1 && username.match(/^[^@#]+$/) &&
+        if (Object.keys(socket.rooms).length == 1 && username.match(/^[^@#]+$/) && rooms[roomId] &&
             !Object.values(rooms[roomId]).map((user) => user.username).includes(username)) {
 
             // save room details
@@ -96,7 +96,7 @@ io.on('connection', (socket) => {
                     io.sockets.in(room).emit('game-not-started', "You're not this room's admin.");
                 }
                 else {
-                    let users = Object.keys(rooms[room]).map((user) => user.username);
+                    let users = Object.values(rooms[room]).map((user) => user.username);
                     // shuffle the positions of the users
                     users.sort(() => Math.random() - 0.5);
                     io.sockets.in(room).emit('game-started', users);

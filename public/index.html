@@ -133,17 +133,27 @@
         </div>
     </div>
     <div id="game-frame" class="container-fluid h-100 pl-1 pt-1 overflow-hidden" frame>
-        <div class="row p-0 m-0 justify-content-between h-75">
-
+        <div class="row p-0 m-0 justify-content-between h-90">
+            <div class="row h-25 justify-content-center">
+                <div class="col player"></div>
+                <div class="col player"></div>
+                <div class="col player"></div>
+                <div class="col player"></div>
+            </div>
         </div>
-        <div class="row p-0 m-0 justify-content-between h-25 pb-4">
-            <div class="col align-self-end">
+        <div class="row p-0 m-0 pb-4">
+            <div class="col-3">
                 <svg id="exit-game-btn" class="bi bi-door-open-fill icon-btn m-3" type="button" width="2em" height="2em"
                     viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd"
                         d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15H1.5zM11 2v13h1V2.5a.5.5 0 0 0-.5-.5H11zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z" />
                 </svg>
             </div>
+            <div class="joker-card"></div>
+            <div class="joker-card"></div>
+            <div class="joker-card"></div>
+            <div class="joker-card"></div>
+            <div class="joker-card"></div>
         </div>
     </div>
     <script src="toasts.js"></script>
@@ -154,7 +164,7 @@
         var nicknameInput = document.getElementById('nickname-input');
         if (nicknameInput.value == "")
             nicknameInput.focus();
-        //switchFrame('lobby-frame');
+        switchFrame('game-frame');
         $(function () {
             $('[data-toggle="popover"]').popover()
         });
